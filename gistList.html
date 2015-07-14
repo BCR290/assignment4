@@ -1,8 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
+    	<link rel="stylesheet" type="text/css" href="mystyle.css">
+    	<title>Gist Lister</title>
+    	<script src="contol.js"> </script>
     </head>
 
-    <body>
+    <body onload="loadTasks()">
+    	<h1>This is Gist lister</h1>
+
+    	<!--ajax-->
+    	<form name ="pages" action="" method="" id="">
+    		Show <select name="page_amount">
+    			<option value="page_1">1</option>
+    			<option value="page_2">2</option>
+    			<option value="page_3">3</option>
+    			<option value="page_4">4</option>
+    			<option value="page_5">5</option>
+    			</select>
+    		pages
+    	</form>
+
+    	<div>
+    	<table id="gistlist">
+    		<!-- AJAX STUFF FILL WITH GISTS--> 
+
+    	</table>
+    	<div>
     </body>
 </html>

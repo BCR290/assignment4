@@ -79,7 +79,9 @@
 		console.log(_url);
 
 		var rows = document.getElementsByName("gistRow");
-        document.removeChild(rows);
+		for (var i = 0 ; i < 30; i++){ 
+        	document.getElementById("gistlist").deleteRow(i);
+        }
 		
 		makeAjaxCall(_url);
 		

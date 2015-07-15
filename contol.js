@@ -43,7 +43,7 @@
 	}
 
 	//object of a gist 
-	function gists(url, id, description) {
+	function gist(url, id, description) {
 		this.cellNum = 3;	// number of cells we will create for each gist (subject to change)
 		this.url = url;		// the URL of the gist
 		this.id = id;		// The id number? I don't know if this is needed

@@ -5,14 +5,14 @@
 // a lot cleaner and please don't delete it.   
 (function() {
 
-	var _url = "https://api.github.com/gists"; // This is the URL 
+	var _url = "https://api.github.com/gists?page=1"; // This is the URL 
 	
 	// This will be called when the variable is created.
 	window.onload = function() {
 		makeAjaxCall(_url);
 
-		var selectPageNum = document.getElementsByName("pages");
-		selectPageNum.onclick = changePageSize();
+		var selectPageNum = document.getElementById("pageselector");
+		selectPageNum.onchange = changePageSize;
 
 		// other variables for other numbers
 	}
@@ -72,7 +72,17 @@
 	}
 
 	var changePageSize = function() {
-		return 0;
+		console.log("popp");
+		var page = document.getElementById("page_amount").value;
+		console.log(page)
+		_url = "https://api.github.com/gists" + page;
+		console.log(_url);
+
+		var rows = document.getElementsByName("gistRow");
+        document.removeChild(rows);
+		
+		makeAjaxCall(_url);
+		
 	}
 
 })();

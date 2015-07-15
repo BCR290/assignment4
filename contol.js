@@ -28,12 +28,11 @@
 				if (request.status === 200) { 
 					//responseText
 					var serverResponse = JSON.parse(request.responseText);
-					var gists = serverResponse.array;
-					console.log(gists);
+					var gists = serverResponse;
 					var gistsArray = [];
 					for(var i = 0; i < gists.length; i++){
-						var g = new gist(array[i].url, array[i].id, array[i].description);
-						gistArray.push(g);
+						var g = new gist(gists[i].url, gists[i].id, gists[i].description);
+						gistsArray.push(g);
 						g.convertToHtml();
 					}     
 				} else {
@@ -58,15 +57,15 @@
 				var cell = document.createElement("td");
 				cell.className = "cell";
 				if (i == 0) {
-					cell.innerHTML(this.url);
+					cell.innerHTML = this.url;
 				} else if (i == 1) {
-					cell.innerHTML(this.id);
+					cell.innerHTML = this.id;
 				} else if (i == 2) {
-					cell.innerHTML(this.description);
+					cell.innerHTML = this.description;
 				}
 				row.appendChild(cell);
 			}
-			var table = document.getElementByName("gistlist");
+			var table = document.getElementById("gistlist");
 			table.appendChild(row);
 		}
 		// end of function

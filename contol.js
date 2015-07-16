@@ -83,8 +83,15 @@
 		_url = "https://api.github.com/gists" + page;
 		console.log(_url);
 
-		var rows = document.getElementById("holding");
-  		document.removeChild(rows);
+// <<<<<<< HEAD
+// 		var rows = document.getElementById("holding");
+//   		document.removeChild(rows);
+// =======
+		//var rows = document.getElementsByName("gistRow");
+		for (var i = 0 ; i < 30; i++){ 
+        	document.getElementById("gistlist").deleteRow(i);
+        }
+// >>>>>>> 08ef25d33ea21994a9940074c2e37887e81b4f73
 		
 		makeAjaxCall(_url);
 		

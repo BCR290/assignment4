@@ -78,8 +78,8 @@
 		_url = "https://api.github.com/gists" + page;
 		console.log(_url);
 
-		var rows = document.getElementsByName("gistRow");
-        document.removeChild(rows);
+		// var rows = document.getElementsByName("gistRow");
+  //       document.removeChild(rows);
 		
 		makeAjaxCall(_url);
 		

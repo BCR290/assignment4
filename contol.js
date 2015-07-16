@@ -19,6 +19,7 @@
 
 	var makeAjaxCall = function(url) {
 		// build the table
+		console.log("ajax");
 		var request = new XMLHttpRequest();
 		request.open("GET", url, true);
 		request.send(null);
@@ -50,6 +51,9 @@
 		this.description = description;	//The description of the gitst
 
 		// a function for making a gist into an HTML element (part of the table)
+		var table = document.getElementById("gistlist");
+		var holder = document.createElement("div");
+		holder.id = "holding";
 		this.convertToHtml = function() {
 			var row = document.createElement("tr");
 			row.className = "gistRow";
@@ -64,22 +68,23 @@
 					cell.innerHTML = this.description;
 				}
 				row.appendChild(cell);
+				holder.appendChild(row);
 			}
-			var table = document.getElementById("gistlist");
-			table.appendChild(row);
+			
 		}
+		table.appendChild(holder);
 		// end of function
 	}
 
 	var changePageSize = function() {
 		console.log("popp");
 		var page = document.getElementById("page_amount").value;
-		console.log(page)
+		console.log(page);
 		_url = "https://api.github.com/gists" + page;
 		console.log(_url);
 
-		var rows = document.getElementsByName("gistRow");
-        document.removeChild(rows);
+		var rows = document.getElementById("holding");
+  		document.removeChild(rows);
 		
 		makeAjaxCall(_url);
 		

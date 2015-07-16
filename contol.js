@@ -14,9 +14,18 @@
 		var selectPageNum = document.getElementById("pageselector");
 		selectPageNum.onchange = changePageSize;
 
+		for(var i = document.getElementById("page_amount").value *30; i <document.getElementById("page_amount").value *30+30; i++){
+			var new_favorite = document.getElementById(gistsArray[i].id);
+
+			new_favorite.onclick = make_favorite; 
+		}
 		// other variables for other numbers
 	}
 
+	var make_favorite = function(){
+		
+	}
+	
 	var makeAjaxCall = function(url) {
 		// build the table
 
@@ -66,7 +75,7 @@
 				var cell = document.createElement("div");
 				cell.className = "cell";
 				if (i == 0) {
-					cell.innerHTML = "Favorite this gist: <input type=\"checkbox\" id=\"" + this.description +"\">";
+					cell.innerHTML = "<input type=\"button\" value=\"favorite\"id=\"" + this.id +"\">";
 				} else if (i == 1) {
 					cell.innerHTML = "<span class=\"info\">URL:</span> " + this.url;
 				} else if (i == 2) {

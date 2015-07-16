@@ -52,8 +52,8 @@
 
 		// a function for making a gist into an HTML element (part of the table)
 		var table = document.getElementById("gistlist");
-		var holder = document.createElement("div");
-		holder.id = "holding";
+		//var holder = document.createElement("div");
+		//holder.id = "holding";
 		this.convertToHtml = function() {
 			var row = document.createElement("tr");
 			row.className = "gistRow";
@@ -68,11 +68,11 @@
 					cell.innerHTML = this.description;
 				}
 				row.appendChild(cell);
-				holder.appendChild(row);
+				//holder.appendChild(row);
 			}
-			
+			table.appendChild(holder);
 		}
-		table.appendChild(holder);
+		
 		// end of function
 	}
 

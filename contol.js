@@ -1,118 +1,129 @@
 // Javascrpt
 "use strict";
-
-// This is a way of styling Javascript I think that it makes the file look
-// a lot cleaner and please don't delete it.   
+ 
+// This is a way of styling Javascript numOfAjaxCalls think that it makes the file look
+// a lot cleaner and please don't delete it.  
 (function() {
+        var _url = "https://api.github.com/gists"; // This is the URL
+        var callCount = 0;      // The amount of calls that has been made in the doEveryThing funciton
+        window.gistsArray = new Array(); // The array with all the gists
+        var numOfAjaxCalls;     // The number of Ajax calls
+ 
+        // This will be called when the variable is created.
+        window.onload = function() {
+                var pages = ["?page=1", "?page=2", "?page=3", "?page=4", "?page=5"];
+                for (numOfAjaxCalls = 0; numOfAjaxCalls < pages.length; numOfAjaxCalls ++) {
+                        var theurl = _url + pages[numOfAjaxCalls ];
+                        makeAjaxCall(theurl);             //Makes the ajax calls and fills
+                }
 
-	var _url = "https://api.github.com/gists?page=1"; // This is the URL 
-	
-	// This will be called when the variable is created.
-	window.onload = function() {
-		makeAjaxCall(_url);
+                var selectPageNum = document.getElementById("pageselector");
+                selectPageNum.onchange = changePageSize;
+        }
+ 
+        //This is after the ajax call...
+        var doEveryThing = function() {
+                if (callCount > 0) {
+                        deleteTable();
+                }
+                createTable(document.getElementById("page_amount").value);
+                callCount++;
+        }
+ 
+        var addToArray = function(g) {
+                gistsArray.push(g);
+        }
+ 
+        var makeAjaxCall = function(url) {
+                //console.log("ajax");
+                var request = new XMLHttpRequest();
+                console.log(url);
+                request.open("GET", url, true);
+                request.send(null);
+               
+                request.onreadystatechange = function() {
+                        if (request.readyState === 4) {
+                                if (request.status === 200) {
+                                        var gists = JSON.parse(request.responseText);
+                                        for (var j = 0; j < gists.length; j++) {
+                                                var g = new gist(gists[j].url, gists[j].id, gists[j].description, gists[j].html_url);
+                                                gistsArray.push(g);    
 
-		var selectPageNum = document.getElementById("pageselector");
-		selectPageNum.onchange = changePageSize;
+                                                if (j == 1) {
+                                                        console.log(numOfAjaxCalls);
+                                                        console.log(g);
+                                                }
+                                        }
+                                        doEveryThing();
+                                } else {
+                                        alert("Error!");
+                                }
+                        }
+                }
+        }
+ 
+        //object of a gist
+        function gist(url, id, description, html) {
+                this.cellNum = 4;       // number of cells we will create for each gist (subject to change)
+               
+                this.url = url;         // the URL of the gist
+                this.id = id;           // The id number? numOfAjaxCalls don't know if this is needed
+                this.description = description; //The description of the gitst
+                this.html_url = html;
+ 
+                // a function for making a gist into an HTML element (part of the table)
+                this.convertToHtml = function() {
+                        var table = document.getElementById("gistlist");       
+                        console.log("html");
+                        // This is called everytime we make an gist...
+                        var row = document.createElement("div");
+                        row.className = "gistRow";
+                        for (var t = 0; t <= this.cellNum; t++) {
+                                var cell = document.createElement("div");
+                                cell.className = "cell";
+                                if (t == 0) {
+                                        cell.innerHTML = "Favorite this gist: <input type=\"button\" value=\"Favorite\" id=\"" + this.id +"\">";
+                                } else if (t == 1) {
+                                        cell.innerHTML = "<span class=\"info\">URL:</span> " + this.url;
+                                } else if (t == 2) {
+                                        cell.innerHTML = "<span class=\"info\">ID:</span> " + this.id;
+                                } else if (t == 3) {
+                                        cell.innerHTML = "<span class=\"info\">Description:</span> " + this.description;
+                                } else if (t == 4) {
+                                        cell.innerHTML = "<span class=\"info\">HTML:</span> <a href=\"" + this.html_url + "\">" + this.html_url + "</a>";
+                                }
+                                row.appendChild(cell);
+                        }
+                        document.getElementById("infoTable").appendChild(row);
+                }
+                // end of function
+        }
+ 
 
-		for(var i = document.getElementById("page_amount").value *30; i <document.getElementById("page_amount").value *30+30; i++){
-			var new_favorite = document.getElementById(gistsArray[i].id);
-
-			new_favorite.onclick = make_favorite; 
-		}
-		// other variables for other numbers
-	}
-
-	var make_favorite = function(){
-		
-	}
-	
-	var makeAjaxCall = function(url) {
-		// build the table
-
-		createTable();
-
-		var request = new XMLHttpRequest();
-		request.open("GET", url, true);
-		request.send(null);
-
-		request.onreadystatechange = function() {
-			if (request.readyState === 4) {
-				if (request.status === 200) { 
-					//responseText
-					var serverResponse = JSON.parse(request.responseText);
-					var gists = serverResponse;
-					var gistsArray = [];
-					for(var i = 0; i < gists.length; i++){
-						var g = new gist(gists[i].url, gists[i].id, gists[i].description, gists[i].html_url);
-						gistsArray.push(g);
-						g.convertToHtml();
-					}    
-				} else {
-					alert("Error!");
-				}
-			}
-		}
-	}
-
-	//object of a gist 
-	function gist(url, id, description, html) {
-		this.cellNum = 4;	// number of cells we will create for each gist (subject to change)
-		
-		this.url = url;		// the URL of the gist
-		this.id = id;		// The id number? I don't know if this is needed
-		this.description = description;	//The description of the gitst
-		this.html_url = html;
-
-		// a function for making a gist into an HTML element (part of the table)
-		var table = document.getElementById("gistlist");
-		//var holder = document.createElement("div");
-		//holder.id = "holding";
-		this.convertToHtml = function() {
-			// This is called everytime we make an gist...
-			var row = document.createElement("div");
-			row.className = "gistRow";
-			for (var i = 0; i <= this.cellNum; i++) {
-				var cell = document.createElement("div");
-				cell.className = "cell";
-				if (i == 0) {
-					cell.innerHTML = "<input type=\"button\" value=\"favorite\"id=\"" + this.id +"\">";
-				} else if (i == 1) {
-					cell.innerHTML = "<span class=\"info\">URL:</span> " + this.url;
-				} else if (i == 2) {
-					cell.innerHTML = "<span class=\"info\">ID:</span> " + this.id;
-				} else if (i == 3) {
-					cell.innerHTML = "<span class=\"info\">Description:</span> " + this.description;
-				} else if (i == 4) {
-					cell.innerHTML = "<span class=\"info\">HTML:</span> <a href=\"" + this.html_url + "\">" + this.html_url + "</a>";
-				}
-				row.appendChild(cell);
-				document.getElementById("infoTable").appendChild(row);
-			}
-		}
-		
-		// end of function
-	}
-
-	//This function changes the page number that we are looking at
-	var changePageSize = function() {
-		var page = document.getElementById("page_amount").value;
-		_url = "https://api.github.com/gists" + page;
-  		deleteTable();
-		makeAjaxCall(_url);
-	}
-
-	// This functino creates a table that will get filled with GISTS
-	var createTable = function() {
-		var table = document.createElement("feildset"); //making a table
-		table.id = "infoTable";
-
-		var infoArea = document.getElementById("infoArea"); // put table on HTML
-		infoArea.appendChild(table); 
-	}
-
-	// This function delets the table that we created 
-	var deleteTable = function() {
-		document.getElementById("infoArea").removeChild(document.getElementById("infoTable")); // Deleted the table from the HTML
-	}
-
+        //This function changes the page number that we are looking at
+        var changePageSize = function() {
+                var page = document.getElementById("page_amount").value;
+                deleteTable();
+                createTable(page, gistsArray);
+        }
+ 
+        // This functino creates a table that will get filled with GISTS
+        var createTable = function(page) {
+                console.log(page);
+                var table = document.createElement("feildset"); //making a table
+                table.id = "infoTable";
+                var infoArea = document.getElementById("infoArea"); // put table on HTML
+                infoArea.appendChild(table);
+                for (var w = (page * 30); w < ((page * 30) + 30); w++) {
+                        //console.log("bleh");
+                      //  console.log(gistsArray[w]);
+                        gistsArray[w].convertToHtml();
+                }
+        }
+ 
+        // This function delets the table that we created
+        var deleteTable = function() {
+                document.getElementById("infoArea").removeChild(document.getElementById("infoTable")); // Deleted the table from the HTML
+        }
+ 
 })();

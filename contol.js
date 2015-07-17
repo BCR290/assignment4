@@ -19,8 +19,38 @@
 
                 var selectPageNum = document.getElementById("pageselector");
                 selectPageNum.onchange = changePageSize;
+
+                var search = document.getElementById("searchButton");
+                search.onclick = searchArray;
+
+
         }
  
+
+ 		var searchArray = function (){
+ 			deleteTable();
+
+ 			var table = document.createElement("feildset"); //making a table
+            table.id = "infoTable";
+            var infoArea = document.getElementById("infoArea"); // put table on HTML
+            infoArea.appendChild(table);
+
+ 			var numOfResults = 0;
+ 			for (var x = 0; x < gistsArray.length; x ++){
+
+ 				if (gistsArray[x].description == document.getElementById("searchText").value){
+ 					gistsArray[x].convertToHtml();
+ 					numOfResults ++ ;
+
+ 				}
+ 			}
+
+ 			if (numOfResults == 0){
+ 				document.getElementById("infoArea").innerHTML = "No Gists found!!!";
+ 			}
+ 		}
+
+
         //This is after the ajax call...
         var doEveryThing = function() {
                 if (callCount > 0) {
@@ -102,6 +132,7 @@
 
         //This function changes the page number that we are looking at
         var changePageSize = function() {
+        		//document.getElementById("searchText").value = "";
                 var page = document.getElementById("page_amount").value;
                 deleteTable();
                 createTable(page, gistsArray);
@@ -117,7 +148,8 @@
                 for (var w = (page * 30); w < ((page * 30) + 30); w++) {
                         //console.log("bleh");
                       //  console.log(gistsArray[w]);
-                        gistsArray[w].convertToHtml();
+                    if (gistsArray[w] !== 'undefined')        
+                       gistsArray[w].convertToHtml();
                 }
         }
  

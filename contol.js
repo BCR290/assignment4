@@ -1,13 +1,15 @@
 // Javascrpt
-"use strict";
+//"use strict";
  
 // This is a way of styling Javascript numOfAjaxCalls think that it makes the file look
 // a lot cleaner and please don't delete it.  
 (function() {
+ 
         var _url = "https://api.github.com/gists"; // This is the URL
         var callCount = 0;      // The amount of calls that has been made in the doEveryThing funciton
         window.gistsArray = new Array(); // The array with all the gists
         var numOfAjaxCalls;     // The number of Ajax calls
+        var favoriteArray = [];
  
         // This will be called when the variable is created.
         window.onload = function() {
@@ -16,41 +18,41 @@
                         var theurl = _url + pages[numOfAjaxCalls ];
                         makeAjaxCall(theurl);             //Makes the ajax calls and fills
                 }
-
+ 
                 var selectPageNum = document.getElementById("pageselector");
                 selectPageNum.onchange = changePageSize;
-
-                var search = document.getElementById("searchButton");
-                search.onclick = searchArray;
-
-
+ 
+                var searcher = document.getElementById("searchButton");
+                searcher.onclick = searchArray;
+ 
+ 
         }
  
-
- 		var searchArray = function (){
- 			deleteTable();
-
- 			var table = document.createElement("feildset"); //making a table
+ 
+                var searchArray = function (){
+                        deleteTable();
+ 
+                        var table = document.createElement("feildset"); //making a table
             table.id = "infoTable";
             var infoArea = document.getElementById("infoArea"); // put table on HTML
             infoArea.appendChild(table);
-
- 			var numOfResults = 0;
- 			for (var x = 0; x < gistsArray.length; x ++){
-
- 				if (gistsArray[x].description == document.getElementById("searchText").value){
- 					gistsArray[x].convertToHtml();
- 					numOfResults ++ ;
-
- 				}
- 			}
-
- 			if (numOfResults == 0){
- 				//document.getElementById("infoArea").innerHTML = "No Gists found!!!";
- 			}
- 		}
-
-
+ 
+                        var numOfResults = 0;
+                        for (var x = 0; x < gistsArray.length; x ++){
+ 
+                                if (gistsArray[x].description == document.getElementById("searchText").value){
+                                        gistsArray[x].convertToHtml();
+                                        numOfResults ++ ;
+ 
+                                }
+                        }
+ 
+                        if (numOfResults == 0){
+                                document.getElementById("infoArea").innerHTML = "No Gists found!!!";
+                        }
+                }
+ 
+ 
         //This is after the ajax call...
         var doEveryThing = function() {
                 if (callCount > 0) {
@@ -78,7 +80,7 @@
                                         for (var j = 0; j < gists.length; j++) {
                                                 var g = new gist(gists[j].url, gists[j].id, gists[j].description, gists[j].html_url);
                                                 gistsArray.push(g);    
-
+ 
                                                 if (j == 1) {
                                                         console.log(numOfAjaxCalls);
                                                         console.log(g);
@@ -103,7 +105,7 @@
  
                 // a function for making a gist into an HTML element (part of the table)
                 this.convertToHtml = function() {
-                        var table = document.getElementById("gistlist");       
+                        var table = document.getElementById("gistlist");      
                         console.log("html");
                         // This is called everytime we make an gist...
                         var row = document.createElement("div");
@@ -112,7 +114,19 @@
                                 var cell = document.createElement("div");
                                 cell.className = "cell";
                                 if (t == 0) {
-                                        cell.innerHTML = "Favorite this gist: <input type=\"button\" value=\"Favorite\" id=\"" + this.id +"\">";
+                                        var gistID = this.id;
+                                        //console.log("1 " + gistID)
+                                        var taskRemove = document.createElement("Button");
+                                        taskRemove.className = "btn btn-danger pull-right";
+                                        taskRemove.innerHTML = "Favorite This Gist";
+                                        //taskRemove.setAttribute("gistID", this.id);
+                                        taskRemove.onclick = function() {
+                                            console.log("2 " + gistID);
+                                            favoriteArray.push(gistID);
+                                            localStorage.setItem("favorites", JSON.stringify(favoriteArray));
+                                            console.log("pop");
+                                        }
+                                        cell.appendChild(taskRemove);
                                 } else if (t == 1) {
                                         cell.innerHTML = "<span class=\"info\">URL:</span> " + this.url;
                                 } else if (t == 2) {
@@ -129,10 +143,10 @@
                 // end of function
         }
  
-
+ 
         //This function changes the page number that we are looking at
         var changePageSize = function() {
-        		//document.getElementById("searchText").value = "";
+                        //document.getElementById("searchText").value = "";
                 var page = document.getElementById("page_amount").value;
                 deleteTable();
                 createTable(page, gistsArray);

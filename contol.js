@@ -46,7 +46,7 @@
  			}
 
  			if (numOfResults == 0){
- 				document.getElementById("infoArea").innerHTML = "No Gists found!!!";
+ 				//document.getElementById("infoArea").innerHTML = "No Gists found!!!";
  			}
  		}
 

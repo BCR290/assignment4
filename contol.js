@@ -10,6 +10,9 @@
         window.gistsArray = new Array(); // The array with all the gists
         var numOfAjaxCalls;     // The number of Ajax calls
         var favoriteArray = [];
+        var numFavorite = 0;
+        var numOfGists = 0;
+
  
         // This will be called when the variable is created.
         window.onload = function() {
@@ -25,7 +28,7 @@
                 var searcher = document.getElementById("searchButton");
                 searcher.onclick = searchArray;
                 
-                loadfavorites;
+                loadfavorites();
  
         }
  
@@ -42,7 +45,7 @@
                         for (var x = 0; x < gistsArray.length; x ++){
  
                                 if (gistsArray[x].description == document.getElementById("searchText").value){
-                                        gistsArray[x].convertToHtml("infoTable");
+                                        gistsArray[x].convertToHtml();
                                         numOfResults ++ ;
  
                                 }
@@ -55,7 +58,9 @@
 
         var loadfavorites = function(){
             favoriteArray = JSON.parse(localStorage.getItem("favorites"));
+
             for(var q = 0; q < favoriteArray.length; q++){
+                //var u = q;
                 console.log(favoriteArray[q]);
                 var holder = document.createElement("div");
                 holder.id = "favoriteGist";
@@ -64,16 +69,44 @@
                 oneFavorite.className = "favoriteOne";
                 oneFavorite.innerHTML = "<a href=\"" +favoriteArray[q].html_url + "\">" +  favoriteArray[q].description + "</a>";
 
+                var taskRemove = document.createElement("Button");
+                taskRemove.className = "btn btn-danger pull-right";
+                taskRemove.innerHTML = "&times;";
+                taskRemove.setAttribute("taskIndex", q);
+
+                taskRemove.onclick = function (){
+
+                    var getFavorite = JSON.parse(localStorage.getItem("favorites"));
+                    console.log(getFavorite.length);
+                    console.log(favoriteArray);
+                    for (var z = 0; z < getFavorite.length; z++){
+                        if(getFavorite[z].url == favoriteArray[parseInt(this.getAttribute("taskIndex"), 10)].url){
+                            favoriteArray.splice(z, 1);
+                            reloadFavorites();
+                        }
+
+                    }
+                }
+                oneFavorite.appendChild(taskRemove);
+
+
+
                 holder.appendChild(oneFavorite);
                 
             }
             document.getElementById("favoritesbar").appendChild(holder);
+        
         }
 
-        var deleteFavorites = function(){
+        var reloadFavorites = function (){
+            delFavorites();
+            //loadfavorites();
+        } 
 
+        var delFavorites = function(){
+            document.getElementById("favoritesbar").removeChild(document.getElementById("favoriteGist"));
         }
- 
+
         //This is after the ajax call...
         var doEveryThing = function() {
                 if (callCount > 0) {
@@ -99,9 +132,9 @@
                                 if (request.status === 200) {
                                         var gists = JSON.parse(request.responseText);
                                         for (var j = 0; j < gists.length; j++) {
-                                                var g = new gist(gists[j].url, gists[j].description, gists[j].html_url);
+                                                var g = new gist(gists[j].url, gists[j].description, gists[j].html_url, numOfGists);
                                                 gistsArray.push(g);    
- 
+                                                numOfGists++;
                                                 if (j == 1) {
                                                         console.log(numOfAjaxCalls);
                                                         console.log(g);
@@ -116,7 +149,8 @@
         }
  
         //object of a gist
-        function gist(url, description, html) {
+        function gist(url, description, html, index) {
+                this.index = index;
                 this.cellNum = 2;       // number of cells we will create for each gist (subject to change)
                
                 this.url = url;         // the URL of the gist
@@ -125,7 +159,7 @@
                 this.html_url = html;
  
                 // a function for making a gist into an HTML element (part of the table)
-                this.convertToHtml = function(place) {
+                this.convertToHtml = function() {
                         //var table = document.getElementById("gistlist");      
                         //console.log("html");
                         // This is called everytime we make an gist...
@@ -135,11 +169,12 @@
                                 var cell = document.createElement("div");
                                 cell.className = "cell";
                                 if (t == 0) {
-                                        
+                                        var index = numFavorite;
                                         var gistURL = this.url;
                                         var gistDesc = this.description;
                                         var gistHTML = this.html_url;
-                                        var savedGist = new gist(gistURL, gistDesc, gistHTML); 
+
+                                        var savedGist = new gist(gistURL, gistDesc, gistHTML, index); 
                                         //console.log("1 " + gistID)
                                         var taskRemove = document.createElement("Button");
                                         taskRemove.className = "btn btn-danger pull-right";
@@ -149,8 +184,9 @@
                                             //console.log("2 " + gistID);
                                             favoriteArray.push(savedGist);
                                             localStorage.setItem("favorites", JSON.stringify(favoriteArray));
-                                            console.log("pop");
+                                            console.log(favoriteArray.length);
                                             loadfavorites();
+                                            numFavorite ++;
                                         }
                                         cell.appendChild(taskRemove);
                                 } else if (t == 1) {
@@ -163,7 +199,7 @@
                                 }
                                 row.appendChild(cell);
                         }
-                        document.getElementById(place).appendChild(row);
+                        document.getElementById("infoArea").appendChild(row);
                 }
                 // end of function
         }
@@ -187,8 +223,8 @@
                 for (var w = (page * 30); w < ((page * 30) + 30); w++) {
                         //console.log("bleh");
                       //  console.log(gistsArray[w]);
-                    if (gistsArray[w] !== 'undefined')        
-                       gistsArray[w].convertToHtml("infoTable");
+                    if (typeof gistsArray[w] != 'undefined')        
+                       gistsArray[w].convertToHtml();
                 }
         }
  

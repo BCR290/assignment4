@@ -6,7 +6,7 @@
 (function() {
 
     var _url = "30_gists.txt"
-    var _url = "https://api.github.com/gists"; // This is the URL
+    //var _url = "https://api.github.com/gists"; // This is the URL
     var callCount = 0;      // The amount of calls that has been made in the doEveryThing funciton
     window.gistsArray = new Array(); // The array with all the gists
     var numOfAjaxCalls;     // The number of Ajax calls
@@ -17,7 +17,7 @@
         var pages = ["?page=1", "?page=2", "?page=3", "?page=4", "?page=5"];
         for (numOfAjaxCalls = 0; numOfAjaxCalls < pages.length; numOfAjaxCalls ++) {
             var theurl = _url + pages[numOfAjaxCalls ];
-            makeAjaxCall(theurl);             //Makes the ajax calls and fills THIS NEEDS TO BE CHANGED
+            makeAjaxCall(_url);             //Makes the ajax calls and fills THIS NEEDS TO BE CHANGED
         }
 
         var selectPageNum = document.getElementById("pageselector");
@@ -27,7 +27,7 @@
         searcher.onclick = searchArray;
         
         if (localStorage.getItem("favorites") != null) {
-            loadfavorites();
+            loadfavorites;
         }
 
     }
@@ -70,6 +70,10 @@
             } else { 
                 oneFavorite.innerHTML = "<a href=\"" +favoriteArray[q].html_url + "\">" +  favoriteArray[q].description + "</a>";
             }
+
+            var deleteFavoreite = document.createElement("Button");
+            deleteFavorite.className = "btn btn-danger pull-right";
+            deleteFavorite.innerHTML = "Favorite This Gist";            
             holder.appendChild(oneFavorite);
             
         }

@@ -73,7 +73,8 @@
 
             var deleteFavoreite = document.createElement("Button");
             deleteFavorite.className = "btn btn-danger pull-right";
-            deleteFavorite.innerHTML = "Favorite This Gist";            
+            deleteFavorite.innerHTML = "Favorite This Gist";
+                        
             holder.appendChild(oneFavorite);
             
         }

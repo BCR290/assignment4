@@ -58,13 +58,20 @@
             for(var q = 0; q < favoriteArray.length; q++){
                 console.log(favoriteArray[q]);
                 var holder = document.createElement("div");
-                holder.className = "favoriteGist";
-                
-                holder.innerHTML = favoriteArray[q].url + "<a href=\"" +favoriteArray[q].html_url + "\">" +  favoriteArray[q].description + "</a>";
+                holder.id = "favoriteGist";
 
-                document.getElementById("favoritesbar").appendChild(holder);
+                var oneFavorite = document.createElement("div");
+                oneFavorite.className = "favoriteOne";
+                oneFavorite.innerHTML = "<a href=\"" +favoriteArray[q].html_url + "\">" +  favoriteArray[q].description + "</a>";
+
+                holder.appendChild(oneFavorite);
                 
             }
+            document.getElementById("favoritesbar").appendChild(holder);
+        }
+
+        var deleteFavorites = function(){
+
         }
  
         //This is after the ajax call...

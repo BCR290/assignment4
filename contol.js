@@ -71,7 +71,7 @@
                 oneFavorite.innerHTML = "<a href=\"" +favoriteArray[q].html_url + "\">" +  favoriteArray[q].description + "</a>";
             }
 
-            var deleteFavoreite = document.createElement("Button");
+            var deleteFavorite = document.createElement("Button");
             deleteFavorite.className = "btn btn-danger pull-right";
             deleteFavorite.innerHTML = "Favorite This Gist";
                         
@@ -193,7 +193,7 @@
         for (var w = (page * 30); w < ((page * 30) + 30); w++) {
             //console.log("bleh");
             //  console.log(gistsArray[w]);
-            if (gistsArray[w] !== 'undefined')        
+            if (typeof gistsArray[w] != 'undefined')        
                gistsArray[w].convertToHtml("infoTable");
         }
     }

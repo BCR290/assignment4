@@ -12,3 +12,21 @@ body {
 .info {
 	font-weight: bold;
 }
+
+#favoritesbar {
+	width: 25%;
+	outline: black solid 2px;
+	margin: 6px;
+	padding-left: 4px;
+	margin-right: 20px;
+	float: left;
+}
+.favoritesheading{
+	font-style: fancy;
+	font-size: 18pt;
+	font-weight: bold;
+}
+#infoArea {
+	width: 70%;
+	float: left;
+}

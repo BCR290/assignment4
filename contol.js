@@ -10,8 +10,6 @@
     window.gistsArray = new Array(); // The array with all the gists
     var numOfAjaxCalls;     // The number of Ajax calls
     var favoriteArray = [];
-    var numFavorite = 0;
-    var numOfGists = 0;
 
 
     // This will be called when the variable is created.
@@ -127,9 +125,9 @@
                 if (request.status === 200) {
                     var gists = JSON.parse(request.responseText);
                     for (var j = 0; j < gists.length; j++) {
-                        var g = new gist(gists[j].url, gists[j].description, gists[j].html_url, numOfGists);
+                        var g = new gist(gists[j].url, gists[j].description, gists[j].html_url);
                         gistsArray.push(g);    
-                        numOfGists++;
+                        
                         if (j == 1) {
                             console.log(numOfAjaxCalls);
                             console.log(g);
@@ -144,8 +142,7 @@
     }
 
     //object of a gist
-    function gist(url, description, html, index) {
-        this.index = index;
+    function gist(url, description, html) {
         this.cellNum = 2;       // number of cells we will create for each gist (subject to change)
        
         this.url = url;         // the URL of the gist
@@ -164,12 +161,11 @@
                 var cell = document.createElement("div");
                 cell.className = "cell";
                 if (t == 0) {
-                    var index = numFavorite;
                     var gistURL = this.url;
                     var gistDesc = this.description;
                     var gistHTML = this.html_url;
 
-                    var savedGist = new gist(gistURL, gistDesc, gistHTML, index); 
+                    var savedGist = new gist(gistURL, gistDesc, gistHTML); 
                     //console.log("1 " + gistID)
                     var taskRemove = document.createElement("Button");
                     taskRemove.className = "btn btn-danger pull-right";
@@ -181,7 +177,6 @@
                         localStorage.setItem("favorites", JSON.stringify(favoriteArray));
                         console.log(favoriteArray.length);
                         loadfavorites();
-                        numFavorite ++;
                     }
                     cell.appendChild(taskRemove);
                 } else if (t == 1) {

@@ -27,6 +27,8 @@
         searcher.onclick = searchArray;
         
         if (localStorage.getItem("favorites") != null) {
+            loadfavorites();
+        } else {
             loadfavorites;
         }
 

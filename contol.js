@@ -1,5 +1,5 @@
 // Javascrpt
-//"use strict";
+//"use strict"; 
  
 // This is a way of styling Javascript numOfAjaxCalls think that it makes the file look
 // a lot cleaner and please don't delete it.  

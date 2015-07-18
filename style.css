@@ -7,6 +7,8 @@ body {
 	margin: 6px;
 	padding-left: 4px;
 	margin-left: 20px;
+	border-radius: 2px;
+	background-color: #A3E0FF
 }
 
 .info {
@@ -14,19 +16,22 @@ body {
 }
 
 #favoritesbar {
-	width: 25%;
+	width: 40%;
 	outline: black solid 2px;
 	margin: 6px;
 	padding-left: 4px;
 	margin-right: 20px;
 	float: left;
 }
-.favoritesheading{
-	font-style: fancy;
+.favoriteheading{
+	font-style: italic;
+	font-family: cursive;
 	font-size: 18pt;
 	font-weight: bold;
+	margin-left: 4pt;
+	text-decoration: underline;
 }
 #infoArea {
-	width: 70%;
+	width: 55%;
 	float: left;
 }

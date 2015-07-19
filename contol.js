@@ -74,9 +74,14 @@
             }
 
             var deleteFavorite = document.createElement("Button");
-            deleteFavorite.className = "btn btn-danger pull-right";
-            deleteFavorite.innerHTML = "Favorite This Gist";
+            deleteFavorite.className = "deleteButton";
+            deleteFavorite.innerHTML = "&times;";
+
+            deleteFavorite.onclick = function() {
+                console.log("poop");
+            }
                         
+            oneFavorite.appendChild(deleteFavorite);
             holder.appendChild(oneFavorite);
             
         }

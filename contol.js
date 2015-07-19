@@ -5,8 +5,8 @@
 // a lot cleaner and please don't delete it.  
 (function() {
 
-    var _url = "30_gists.txt"
-    //var _url = "https://api.github.com/gists"; // This is the URL
+    //var _url = "30_gists.txt"
+    var _url = "https://api.github.com/gists"; // This is the URL
     var callCount = 0;      // The amount of calls that has been made in the doEveryThing funciton
     window.gistsArray = new Array(); // The array with all the gists
     var numOfAjaxCalls;     // The number of Ajax calls
@@ -17,7 +17,7 @@
         var pages = ["?page=1", "?page=2", "?page=3", "?page=4", "?page=5"];
         for (numOfAjaxCalls = 0; numOfAjaxCalls < pages.length; numOfAjaxCalls ++) {
             var theurl = _url + pages[numOfAjaxCalls ];
-            makeAjaxCall(_url);             //Makes the ajax calls and fills THIS NEEDS TO BE CHANGED
+            makeAjaxCall(theurl);             //Makes the ajax calls and fills THIS NEEDS TO BE CHANGED
         }
 
         var selectPageNum = document.getElementById("pageselector");
@@ -76,9 +76,15 @@
             var deleteFavorite = document.createElement("Button");
             deleteFavorite.className = "deleteButton";
             deleteFavorite.innerHTML = "&times;";
-
+            deleteFavorite.setAttribute("index", q);
             deleteFavorite.onclick = function() {
-                console.log("poop");
+                console.log(this.getAttribute("index"));
+                console.log(favoriteArray);
+                favoriteArray.splice(parseInt(this.getAttribute("index"), 10), 1);
+                console.log(favoriteArray);
+                localStorage.setItem("favorites", JSON.stringify(favoriteArray));
+                deleteFavs();
+                loadfavorites();
             }
                         
             oneFavorite.appendChild(deleteFavorite);

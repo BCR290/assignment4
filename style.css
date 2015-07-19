@@ -30,3 +30,7 @@ body {
 	width: 70%;
 	float: left;
 }
+
+.deleteButton {
+	text-align: right;
+}

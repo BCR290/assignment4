@@ -43,9 +43,23 @@
         infoArea.appendChild(table);
         for (var x = 0; x < gistsArray.length; x ++){
             if (gistsArray[x].description == document.getElementById("searchText").value) {
-                gistsArray[x].convertToHtml("infoTable");
+                var counter = 0;
+
+                for (var y = 0; y < favoriteArray.length; y++){
+                    if (gistsArray[x].html_url == favoriteArray[y].html_url){
+                        counter ++;
+                                           
+                    }
+                }
+                
+                if (counter == 0){
+                    gistsArray[x].convertToHtml("infoTable"); 
+                }
+
             }
         }
+
+
     }
 
     var loadfavorites = function(){

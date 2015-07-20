@@ -1,5 +1,5 @@
 body {
-	font-family: sans-serif, Georgia, Serif; 
+	/*font-family: sans-serif, Georgia, Serif; */
 }
 
 h1{
@@ -11,8 +11,6 @@ h1{
 }
 
 .gistRow {
-	border-radius: 5px;
-	background-color: lightblue;
 	margin: 6px;
 	padding-left: 4px;
 	margin-left: 20px;
@@ -33,6 +31,7 @@ h1{
 	margin-right: 20px;
 	float: right;
 }
+
 .favoriteheading{
 	font-style: italic;
 	font-family: cursive;
@@ -45,17 +44,7 @@ h1{
 	width: 55%;
 	float: left;
 	text-decoration: underline;	
-	font-size: 20pt;
 	font-weight: bold;
-
-}
-#infoArea {
-	width: 60%;
-	float: left;
-}
-
-.deleteButton {
-	text-align: right;
 }
 
 .favoriteOne {

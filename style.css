@@ -1,9 +1,18 @@
 body {
-  
+	font-family: sans-serif, Georgia, Serif; 
+}
+
+h1{
+	text-align: center;
+}
+
+#pageselector{
+	margin-left: 50px;
 }
 
 .gistRow {
-	
+	border-radius: 5px;
+	background-color: lightblue;
 	margin: 6px;
 	padding-left: 4px;
 	margin-left: 20px;
@@ -22,7 +31,7 @@ body {
 	margin: 6px;
 	padding-left: 4px;
 	margin-right: 20px;
-	float: left;
+	float: right;
 }
 .favoriteheading{
 	font-style: italic;
@@ -35,4 +44,24 @@ body {
 #infoArea {
 	width: 55%;
 	float: left;
+	text-decoration: underline;	
+	font-size: 20pt;
+	font-weight: bold;
+
+}
+#infoArea {
+	width: 60%;
+	float: left;
+}
+
+.deleteButton {
+	text-align: right;
+}
+
+.favoriteOne {
+	margin: 4px;
+}
+
+.deleteButton {
+	float: right;
 }
